@@ -1,13 +1,45 @@
 <template>
     <login></login>
+    <div class="toasts">
+        <the-toast v-for="(toast, i) in toasts" :key="i" :message="toast.message" :toastType="toast.type"></the-toast>
+    </div>
 </template>
 
 <script>
 
 import Login from "./components/Login.vue"
+import TheToast from "./components/TheToast.vue"
 export default{
+    data:()=>({
+      toasts:[
+        // {
+        //     type:"success",
+        //     message:"Done Success"
+        // },
+        // {
+        //     type:"Error",
+        //     message:"Error Here"
+        // }
+      ],
+      
+    }),
+   mounted(){
+    this.$eventBus.on('errorToast',data=>{
+         this.toasts.push(data);
+         this.removeOneToast();
+    })
+
+   }, 
+   methods:{
+      removeOneToast(){
+        setTimeout(()=>{
+          this.toasts.shift();
+        },2222)
+      }
+   },
   components:{
-      Login
+      Login,
+      TheToast
 }
 }
 

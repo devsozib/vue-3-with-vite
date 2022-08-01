@@ -1,5 +1,6 @@
 <template>
   <div class="login-page">
+  
     <div class="login-card">
         <div class="text-center">
             <img src="/lock.png" alt="" class="login-card__icon ">
@@ -29,7 +30,9 @@
 </template>
 
 <script>
+import TheToastVue from './TheToast.vue';
 export default {
+  
    data:()=>({
         formData:{
             email:"",
@@ -45,10 +48,18 @@ export default {
             return;
         }
         if(this.formData.password.length < 6){
-             alert("Password must be at least 6 characters!")
+            //  alert("Password must be at least 6 characters!")
+            this.$eventBus.emit('errorToast', {
+              type:"Error",
+              message:"Password must be at least 6 characters!"
+            });
              return;
         }
     }
+  },
+
+  components:{
+    
   }
 }
 </script>
