@@ -9,9 +9,9 @@
 
        <form action="#" @submit.prevent="handleSubmit">
         <label class="block" for="email">Email</label>
-        <input type="email" v-model="formData.email" placeholder="Enter your email">
+        <input type="email" v-model="formData.email" ref="email" placeholder="Enter your email" required>
         <label class="block mt-3" for="email">Password</label>
-        <input type="password" v-model="formData.password" required placeholder="Enter your password">
+        <input type="password" v-model="formData.password" ref="password" required placeholder="Enter your password">
         <button type="submit" class="w-100 mt-3">Login</button>
         <div class="d-flex jc-between">
             <div>
@@ -44,7 +44,11 @@ export default {
         console.log(this.formData)
 
         if(!this.formData.email){
-            alert("Email can not be null!")
+             this.$eventBus.emit('errorToast', {
+              type:"Error",
+              message:"Email can not be null!"
+            });
+            this.$refs.password.focus();
             return;
         }
         if(this.formData.password.length < 6){
@@ -53,6 +57,7 @@ export default {
               type:"Error",
               message:"Password must be at least 6 characters!"
             });
+            this.$refs.password.focus();
              return;
         }
     }
